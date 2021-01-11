@@ -10,8 +10,17 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nchar" MaxLength="100" />
+          <Property Name="Name" Type="nchar" MaxLength="100" Nullable="false" />
           <Property Name="Approved" Type="bit" />
+          <Property Name="Description" Type="nchar" MaxLength="1000" />
+          <Property Name="Lenght" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Height" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Depth" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Weight" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="SubmitDate" Type="datetime" Nullable="false" />
+          <Property Name="ApproveDate" Type="datetime" />
+          <Property Name="DepartureDate" Type="datetime" />
+          <Property Name="Train" Type="nchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityContainer Name="ReservationSystem2ModelStoreContainer">
           <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
@@ -25,8 +34,17 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Approved" Type="Boolean" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" />
+          <Property Name="Lenght" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Height" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Depth" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="SubmitDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ApproveDate" Type="DateTime" Precision="3" />
+          <Property Name="DepartureDate" Type="DateTime" Precision="3" />
+          <Property Name="Train" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityContainer Name="ReservationSystem2Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Request" EntityType="Self.Request" />
@@ -40,6 +58,15 @@
           <EntitySetMapping Name="Request">
             <EntityTypeMapping TypeName="ReservationSystem2Model.Request">
               <MappingFragment StoreEntitySet="Request">
+                <ScalarProperty Name="Train" ColumnName="Train" />
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="ApproveDate" ColumnName="ApproveDate" />
+                <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Depth" ColumnName="Depth" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Lenght" ColumnName="Lenght" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />

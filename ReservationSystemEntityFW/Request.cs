@@ -17,5 +17,14 @@ namespace ReservationSystemEntityFW
         public int Id { get; set; }
         public string Name { get; set; }
         public Nullable<bool> Approved { get; set; }
+        public string Description { get; set; }
+        public decimal Lenght { get; set; }
+        public decimal Height { get; set; }
+        public decimal Depth { get; set; }
+        public decimal Weight { get; set; }
+        public System.DateTime SubmitDate { get; set; }
+        public Nullable<System.DateTime> ApproveDate { get; set; }
+        public Nullable<System.DateTime> DepartureDate { get; set; }
+        public string Train { get; set; }
     }
 }
