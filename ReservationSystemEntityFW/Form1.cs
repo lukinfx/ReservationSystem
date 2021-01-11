@@ -20,7 +20,7 @@ namespace ReservationSystemEntityFW
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            databaseUtils.Add(new Request{ Name = "001", Approved = false });
+            databaseUtils.AddRequest(new Request{ Name = "001", Approved = false });
         }
 
         private void ReadButton_Click(object sender, EventArgs e)

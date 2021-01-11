@@ -24,7 +24,9 @@ namespace ReservationSystemEntityFW
         public decimal Weight { get; set; }
         public System.DateTime SubmitDate { get; set; }
         public Nullable<System.DateTime> ApproveDate { get; set; }
-        public Nullable<System.DateTime> DepartureDate { get; set; }
-        public string Train { get; set; }
+        public string Email { get; set; }
+        public int TrainId { get; set; }
+    
+        public virtual Train Train { get; set; }
     }
 }

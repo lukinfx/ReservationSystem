@@ -19,11 +19,36 @@
           <Property Name="Weight" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="SubmitDate" Type="datetime" Nullable="false" />
           <Property Name="ApproveDate" Type="datetime" />
-          <Property Name="DepartureDate" Type="datetime" />
-          <Property Name="Train" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="TrainId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Train">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DepartureDate" Type="datetime" Nullable="false" />
+          <Property Name="TrainNumber" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Request_ToTable">
+          <End Role="Train" Type="Self.Train" Multiplicity="1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="TrainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ReservationSystem2ModelStoreContainer">
           <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Train" EntityType="Self.Train" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Request_ToTable" Association="Self.FK_Request_ToTable">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -43,12 +68,39 @@
           <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="SubmitDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ApproveDate" Type="DateTime" Precision="3" />
-          <Property Name="DepartureDate" Type="DateTime" Precision="3" />
-          <Property Name="Train" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="TrainId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Train" Relationship="ReservationSystem2Model.FK_Request_ToTable" FromRole="Request" ToRole="Train" />
         </EntityType>
         <EntityContainer Name="ReservationSystem2Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Request" EntityType="Self.Request" />
+          <EntitySet Name="Train" EntityType="ReservationSystem2Model.Train" />
+          <AssociationSet Name="FK_Request_ToTable" Association="ReservationSystem2Model.FK_Request_ToTable">
+            <End Role="Train" EntitySet="Train" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Train">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DepartureDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TrainNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Request" Relationship="ReservationSystem2Model.FK_Request_ToTable" FromRole="Train" ToRole="Request" />
+        </EntityType>
+        <Association Name="FK_Request_ToTable">
+          <End Type="ReservationSystem2Model.Train" Role="Train" Multiplicity="1" />
+          <End Type="ReservationSystem2Model.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Train">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="TrainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -58,8 +110,8 @@
           <EntitySetMapping Name="Request">
             <EntityTypeMapping TypeName="ReservationSystem2Model.Request">
               <MappingFragment StoreEntitySet="Request">
-                <ScalarProperty Name="Train" ColumnName="Train" />
-                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="TrainId" ColumnName="TrainId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="ApproveDate" ColumnName="ApproveDate" />
                 <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
@@ -70,6 +122,15 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Train">
+            <EntityTypeMapping TypeName="ReservationSystem2Model.Train">
+              <MappingFragment StoreEntitySet="Train">
+                <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

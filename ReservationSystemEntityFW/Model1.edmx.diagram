@@ -6,6 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="68ac87cdc6d04d9ea8e11401f738fb28" Name="Diagram1">
         <EntityTypeShape EntityType="ReservationSystem2Model.Request" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.Train" Width="1.5" PointX="2.75" PointY="0.75" />
+        <AssociationConnector Association="ReservationSystem2Model.FK_Request_ToTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

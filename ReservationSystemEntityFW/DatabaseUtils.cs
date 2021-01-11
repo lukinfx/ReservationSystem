@@ -9,8 +9,8 @@ namespace ReservationSystemEntityFW
     public class DatabaseUtils
     {
         ReservationSystem2Entities context = new ReservationSystem2Entities();
-
-        public void Add (Request request)
+        #region Request
+        public void AddRequest (Request request)
         {
             context.Request.Add(request);
             context.SaveChanges();
@@ -59,5 +59,33 @@ namespace ReservationSystemEntityFW
             var list = context.Request.Where(i => i.Approved == false).ToList();
             return list;
         }
+        #endregion Request
+
+        #region Train
+        public void AddTrain(Train train)
+        {
+            context.Train.Add(train);
+            context.SaveChanges();
+        }
+
+        public List<Train> GetAllTrains()
+        {
+            var list = context.Train.ToList();
+            return list;
+        }
+
+        public List<Train> GetFutureTrains()
+        {
+            var last = context.Train.Where(i => i.DepartureDate > DateTime.Now).ToList();
+            return last;
+        }
+
+        public List<Request> ConfirmedRequestsForTrain(int TrainId)
+        {
+            var train = context.Train.Where(i => i.Id == TrainId).ToList().First();
+            return train.Request.ToList();
+        }
+
+        #endregion Train
     }
 }
