@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReservationSystemEntityFW
 {
-    class DatabaseUtils
+    public class DatabaseUtils
     {
         ReservationSystem2Entities context = new ReservationSystem2Entities();
 
