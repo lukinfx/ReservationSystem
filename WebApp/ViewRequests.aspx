@@ -16,9 +16,9 @@
         CellPadding="15" 
         CellSpacing="0"
         runat="server">
-         
-
-
     </asp:Table>
+
+    <asp:Button ID="ButtonDownLoadTable" runat="server" Text="DownLoad Table" OnClick="DownloadTable" />
+
 
 </asp:Content>
