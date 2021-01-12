@@ -1,17 +1,24 @@
 ﻿<%@ Page Title="Contact" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Contact.aspx.cs" Inherits="WebApp.Contact" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2><%: Title %>.</h2>
-    <h3>Your contact page.</h3>
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+    <h2>Check requests</h2>
+    <asp:Button ID="ButtonApproved" runat="server" Text="Approved for next train" OnClick="ShowApprovedRequestsForNextTrain" />
+    <asp:Button ID="ButtonAll" runat="server" Text="All" OnClick="ShowAllRequests"/>
+    <asp:Button ID="Button1" runat="server" Text="All for next train" OnClick="ShowRequestsForNextTrain"/>
+    <asp:DropDownList ID="DropDownListTrains" runat="server"></asp:DropDownList>
+    <br />
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
+    <asp:Table ID="TableRequests" 
+        GridLines="Both" 
+        HorizontalAlign="Center" 
+        Font-Names="Verdana" 
+        Font-Size="8pt" 
+        CellPadding="15" 
+        CellSpacing="0"
+        runat="server">
+         
+
+
+    </asp:Table>
+
 </asp:Content>

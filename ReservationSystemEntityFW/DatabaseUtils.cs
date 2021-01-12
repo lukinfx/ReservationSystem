@@ -76,7 +76,7 @@ namespace ReservationSystemEntityFW
 
         public List<Train> GetFutureTrains()
         {
-            var last = context.Train.Where(i => i.DepartureDate > DateTime.Now).ToList();
+            var last = context.Train.Where(i => i.DepartureDate >= DateTime.Now).ToList();
             return last;
         }
 
