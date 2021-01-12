@@ -8,7 +8,7 @@ using ReservationSystemEntityFW;
 
 namespace WebApp
 {
-    public partial class About : Page
+    public partial class SubmitRequest : Page
     {
         private DatabaseUtils _databaseUtils = new DatabaseUtils();
         List<Train> listOfTrains;

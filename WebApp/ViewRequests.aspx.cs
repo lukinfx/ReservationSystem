@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace WebApp
 {
-    public partial class Contact : Page
+    public partial class ViewRequests : Page
     {
         private DatabaseUtils _databaseUtils = new DatabaseUtils();
         List<Train> listOfTrains;

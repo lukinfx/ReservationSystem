@@ -11,70 +11,52 @@ namespace WebApp
 {
 
 
-    public partial class About
+    public partial class ViewRequests
     {
 
         /// <summary>
-        /// TextBoxName control.
+        /// ButtonApproved control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxName;
+        protected global::System.Web.UI.WebControls.Button ButtonApproved;
 
         /// <summary>
-        /// TextBoxDescription control.
+        /// ButtonAll control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxDescription;
+        protected global::System.Web.UI.WebControls.Button ButtonAll;
 
         /// <summary>
-        /// TextBoxweight control.
+        /// Button1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxweight;
+        protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
-        /// DropDownListDates control.
+        /// DropDownListTrains control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListDates;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListTrains;
 
         /// <summary>
-        /// TextBoxEmail control.
+        /// TableRequests control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxEmail;
-
-        /// <summary>
-        /// ButtonSubmit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonSubmit;
-
-        /// <summary>
-        /// LabelSubmitted control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelSubmitted;
+        protected global::System.Web.UI.WebControls.Table TableRequests;
     }
 }
