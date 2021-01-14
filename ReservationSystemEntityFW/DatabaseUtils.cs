@@ -86,6 +86,34 @@ namespace ReservationSystemEntityFW
             return train.Request.ToList();
         }
 
+        public Train GetLastTrain()
+        {
+            var last = context.Train.OrderByDescending(x => x.Id).First();
+            return last;
+        }
+
         #endregion Train
+
+        #region User
+        public bool ValidateUser(string username, string password)
+        {
+            var user = context.User.Where(x => x.Username == username).First();
+            bool validUser = (password == user.Password);
+            return validUser;
+        }
+
+        public void AddAdmin()
+        {
+            context.User.Add(new User() { Username = "admin", Password = "admin" });
+        }
+
+
+        public void AddUser(string username, string password)
+        {
+            if (context.User.Where(x => x.Username == username).Count() == 0)
+                context.User.Add(new User() { Username = username, Password = password });
+        }
+
+        #endregion User
     }
 }

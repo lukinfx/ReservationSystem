@@ -27,5 +27,6 @@ namespace ReservationSystemEntityFW
     
         public virtual DbSet<Request> Request { get; set; }
         public virtual DbSet<Train> Train { get; set; }
+        public virtual DbSet<User> User { get; set; }
     }
 }

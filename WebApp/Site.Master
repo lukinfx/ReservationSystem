@@ -52,7 +52,7 @@
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Home</a></li>
                         <li><a runat="server" href="~/SubmitRequest">Submit Request</a></li>
-                        <li><a runat="server" href="~/ViewRequests">View Requests</a></li>
+                        <li><a runat="server" href="~/Login">View Requests</a></li>
                     </ul>
                 </div>
             </div>

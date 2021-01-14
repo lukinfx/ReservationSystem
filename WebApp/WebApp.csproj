@@ -130,6 +130,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Login.aspx" />
     <Content Include="SubmitRequest.aspx" />
     <Content Include="ViewRequests.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -186,6 +187,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SubmitRequest.aspx.cs">
       <DependentUpon>SubmitRequest.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -8,6 +8,7 @@
         <EntityTypeShape EntityType="ReservationSystem2Model.Request" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ReservationSystem2Model.Train" Width="1.5" PointX="2.75" PointY="0.75" />
         <AssociationConnector Association="ReservationSystem2Model.FK_Request_ToTable" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.User" Width="1.5" PointX="4.125" PointY="3.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

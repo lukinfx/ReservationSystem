@@ -26,9 +26,17 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DepartureDate" Type="datetime" Nullable="false" />
           <Property Name="TrainNumber" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <Association Name="FK_Request_ToTable">
           <End Role="Train" Type="Self.Train" Multiplicity="1" />
@@ -45,6 +53,7 @@
         <EntityContainer Name="ReservationSystem2ModelStoreContainer">
           <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Train" EntityType="Self.Train" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Request_ToTable" Association="Self.FK_Request_ToTable">
             <End Role="Train" EntitySet="Train" />
             <End Role="Request" EntitySet="Request" />
@@ -79,6 +88,7 @@
             <End Role="Train" EntitySet="Train" />
             <End Role="Request" EntitySet="Request" />
           </AssociationSet>
+          <EntitySet Name="User" EntityType="ReservationSystem2Model.User" />
         </EntityContainer>
         <EntityType Name="Train">
           <Key>
@@ -101,6 +111,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -130,6 +148,15 @@
               <MappingFragment StoreEntitySet="Train">
                 <ScalarProperty Name="TrainNumber" ColumnName="TrainNumber" />
                 <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="ReservationSystem2Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
