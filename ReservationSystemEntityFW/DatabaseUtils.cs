@@ -97,21 +97,31 @@ namespace ReservationSystemEntityFW
         #region User
         public bool ValidateUser(string username, string password)
         {
-            var user = context.User.Where(x => x.Username == username).First();
-            bool validUser = (password == user.Password);
+            bool validUser = false;
+            if (ValidUsername(username))
+            {
+                var user = context.User.Where(x => x.Username == username).First();
+                validUser = (password == user.Password);
+            }
+
+            
             return validUser;
         }
 
-        public void AddAdmin()
+        private bool ValidUsername(string username)
         {
-            context.User.Add(new User() { Username = "admin", Password = "admin" });
+            bool isValid = context.User.Where(x => x.Username == username).Count() > 0;
+            return isValid;
         }
 
 
         public void AddUser(string username, string password)
         {
             if (context.User.Where(x => x.Username == username).Count() == 0)
+            {
                 context.User.Add(new User() { Username = username, Password = password });
+                context.SaveChanges();
+            }
         }
 
         #endregion User

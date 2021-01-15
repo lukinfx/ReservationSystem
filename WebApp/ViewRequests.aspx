@@ -2,9 +2,7 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>Check requests</h2>
-    <br />
-    <asp:Login ID="Login1" runat="server"></asp:Login>
-    <br />
+    
     <asp:Button ID="ButtonApproved" runat="server" Text="Approved for next train" OnClick="ShowApprovedRequestsForNextTrain" />
     <asp:Button ID="ButtonAll" runat="server" Text="All" OnClick="ShowAllRequests"/>
     <asp:Button ID="Button1" runat="server" Text="All for next train" OnClick="ShowRequestsForNextTrain"/>

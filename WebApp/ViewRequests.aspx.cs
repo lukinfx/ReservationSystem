@@ -20,6 +20,11 @@ namespace WebApp
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (WebAppContext.Instance().ValidUser != true)
+            {
+                Response.Redirect("Login.aspx");
+                Response.End();
+            }
             _listOfTrains = _databaseUtils.GetAllTrains();
             foreach (var item in _listOfTrains)
             {
