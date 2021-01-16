@@ -5,10 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="68ac87cdc6d04d9ea8e11401f738fb28" Name="Diagram1">
-        <EntityTypeShape EntityType="ReservationSystem2Model.Request" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ReservationSystem2Model.Train" Width="1.5" PointX="2.75" PointY="0.75" />
-        <AssociationConnector Association="ReservationSystem2Model.FK_Request_ToTable" />
-        <EntityTypeShape EntityType="ReservationSystem2Model.User" Width="1.5" PointX="4.125" PointY="3.125" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.Request" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.Train" Width="1.5" PointX="2.625" PointY="4.25" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.User" Width="1.5" PointX="5.625" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.Container" Width="1.5" PointX="10.75" PointY="2.5" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.NL" Width="1.5" PointX="4.125" PointY="0.5" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.Wagon" Width="1.5" PointX="6.375" PointY="1.125" />
+        <EntityTypeShape EntityType="ReservationSystem2Model.WagonType" Width="1.5" PointX="8.625" PointY="2.5" />
+        <AssociationConnector Association="ReservationSystem2Model.FK_NL_ToRequest" />
+        <AssociationConnector Association="ReservationSystem2Model.FK_Request_ToTable1" />
+        <AssociationConnector Association="ReservationSystem2Model.FK_Wagon_ToNL" />
+        <AssociationConnector Association="ReservationSystem2Model.FK_Wagon_ToWagonType" />
+        <AssociationConnector Association="ReservationSystem2Model.FK_Container_ToWagon" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

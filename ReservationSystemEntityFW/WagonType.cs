@@ -12,27 +12,20 @@ namespace ReservationSystemEntityFW
     using System;
     using System.Collections.Generic;
     
-    public partial class Request
+    public partial class WagonType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Request()
+        public WagonType()
         {
-            this.NL = new HashSet<NL>();
+            this.Wagon = new HashSet<Wagon>();
         }
     
         public int Id { get; set; }
-        public string Name { get; set; }
-        public Nullable<bool> Approved { get; set; }
-        public System.DateTime SubmitDate { get; set; }
-        public Nullable<System.DateTime> ApproveDate { get; set; }
-        public string Email { get; set; }
-        public int Train_Id { get; set; }
-        public string Reexpedition_Id { get; set; }
-        public string StartStation { get; set; }
-        public string EndStation { get; set; }
+        public string IdentificationNumber { get; set; }
+        public Nullable<decimal> Lenght { get; set; }
+        public Nullable<decimal> Weight { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NL> NL { get; set; }
-        public virtual Train Train { get; set; }
+        public virtual ICollection<Wagon> Wagon { get; set; }
     }
 }

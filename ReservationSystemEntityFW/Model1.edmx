@@ -5,6 +5,27 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ReservationSystem2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Container">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Goods" Type="nchar" MaxLength="10" />
+          <Property Name="NHM" Type="varchar" MaxLength="20" />
+          <Property Name="RID" Type="varchar" MaxLength="20" />
+          <Property Name="Netto" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="Tara" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="Brutto" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="Wagon_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NL">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Request_Id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Request">
           <Key>
             <PropertyRef Name="Id" />
@@ -12,15 +33,13 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="100" Nullable="false" />
           <Property Name="Approved" Type="bit" />
-          <Property Name="Description" Type="nchar" MaxLength="1000" />
-          <Property Name="Lenght" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Height" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Depth" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Weight" Type="numeric" Precision="18" Scale="0" Nullable="false" />
           <Property Name="SubmitDate" Type="datetime" Nullable="false" />
           <Property Name="ApproveDate" Type="datetime" />
           <Property Name="Email" Type="nchar" MaxLength="30" Nullable="false" />
-          <Property Name="TrainId" Type="int" Nullable="false" />
+          <Property Name="Train_Id" Type="int" Nullable="false" />
+          <Property Name="Reexpedition_Id" Type="varchar" MaxLength="50" />
+          <Property Name="StartStation" Type="varchar" MaxLength="50" />
+          <Property Name="EndStation" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Train">
           <Key>
@@ -35,9 +54,50 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Username" Type="nchar" MaxLength="20" Nullable="false" />
-          <Property Name="Password" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="Wagon">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NL_Id" Type="int" Nullable="false" />
+          <Property Name="WagonType_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WagonType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Lenght" Type="decimal" Precision="5" Scale="0" />
+          <Property Name="Weight" Type="decimal" Precision="5" Scale="0" />
+        </EntityType>
+        <Association Name="FK_Container_ToWagon">
+          <End Role="Wagon" Type="Self.Wagon" Multiplicity="1" />
+          <End Role="Container" Type="Self.Container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wagon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Container">
+              <PropertyRef Name="Wagon_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NL_ToRequest">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="NL" Type="Self.NL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NL">
+              <PropertyRef Name="Request_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Request_ToTable">
           <End Role="Train" Type="Self.Train" Multiplicity="1" />
           <End Role="Request" Type="Self.Request" Multiplicity="*" />
@@ -46,17 +106,61 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Request">
-              <PropertyRef Name="TrainId" />
+              <PropertyRef Name="Train_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wagon_ToNL">
+          <End Role="NL" Type="Self.NL" Multiplicity="1" />
+          <End Role="Wagon" Type="Self.Wagon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NL">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wagon">
+              <PropertyRef Name="NL_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wagon_ToWagonType">
+          <End Role="WagonType" Type="Self.WagonType" Multiplicity="1" />
+          <End Role="Wagon" Type="Self.Wagon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WagonType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wagon">
+              <PropertyRef Name="WagonType_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ReservationSystem2ModelStoreContainer">
+          <EntitySet Name="Container" EntityType="Self.Container" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NL" EntityType="Self.NL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Train" EntityType="Self.Train" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wagon" EntityType="Self.Wagon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WagonType" EntityType="Self.WagonType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Container_ToWagon" Association="Self.FK_Container_ToWagon">
+            <End Role="Wagon" EntitySet="Wagon" />
+            <End Role="Container" EntitySet="Container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NL_ToRequest" Association="Self.FK_NL_ToRequest">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="NL" EntitySet="NL" />
+          </AssociationSet>
           <AssociationSet Name="FK_Request_ToTable" Association="Self.FK_Request_ToTable">
             <End Role="Train" EntitySet="Train" />
             <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wagon_ToNL" Association="Self.FK_Wagon_ToNL">
+            <End Role="NL" EntitySet="NL" />
+            <End Role="Wagon" EntitySet="Wagon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wagon_ToWagonType" Association="Self.FK_Wagon_ToWagonType">
+            <End Role="WagonType" EntitySet="WagonType" />
+            <End Role="Wagon" EntitySet="Wagon" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -70,25 +174,44 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Approved" Type="Boolean" />
-          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" />
-          <Property Name="Lenght" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Height" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Depth" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="SubmitDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ApproveDate" Type="DateTime" Precision="3" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="30" FixedLength="true" Unicode="true" />
-          <Property Name="TrainId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Train" Relationship="ReservationSystem2Model.FK_Request_ToTable" FromRole="Request" ToRole="Train" />
+          <Property Name="Train_Id" Type="Int32" Nullable="false" />
+          <Property Name="Reexpedition_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StartStation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EndStation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="NL" Relationship="ReservationSystem2Model.FK_NL_ToRequest" FromRole="Request" ToRole="NL" />
+          <NavigationProperty Name="Train" Relationship="ReservationSystem2Model.FK_Request_ToTable1" FromRole="Request" ToRole="Train" />
         </EntityType>
         <EntityContainer Name="ReservationSystem2Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Request" EntityType="Self.Request" />
           <EntitySet Name="Train" EntityType="ReservationSystem2Model.Train" />
-          <AssociationSet Name="FK_Request_ToTable" Association="ReservationSystem2Model.FK_Request_ToTable">
+          <EntitySet Name="User" EntityType="ReservationSystem2Model.User" />
+          <EntitySet Name="Container" EntityType="ReservationSystem2Model.Container" />
+          <EntitySet Name="NL" EntityType="ReservationSystem2Model.NL" />
+          <EntitySet Name="Wagon" EntityType="ReservationSystem2Model.Wagon" />
+          <EntitySet Name="WagonType" EntityType="ReservationSystem2Model.WagonType" />
+          <AssociationSet Name="FK_NL_ToRequest" Association="ReservationSystem2Model.FK_NL_ToRequest">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="NL" EntitySet="NL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Request_ToTable1" Association="ReservationSystem2Model.FK_Request_ToTable1">
             <End Role="Train" EntitySet="Train" />
             <End Role="Request" EntitySet="Request" />
           </AssociationSet>
-          <EntitySet Name="User" EntityType="ReservationSystem2Model.User" />
+          <AssociationSet Name="FK_Wagon_ToNL" Association="ReservationSystem2Model.FK_Wagon_ToNL">
+            <End Role="NL" EntitySet="NL" />
+            <End Role="Wagon" EntitySet="Wagon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wagon_ToWagonType" Association="ReservationSystem2Model.FK_Wagon_ToWagonType">
+            <End Role="WagonType" EntitySet="WagonType" />
+            <End Role="Wagon" EntitySet="Wagon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Container_ToWagon" Association="ReservationSystem2Model.FK_Container_ToWagon">
+            <End Role="Wagon" EntitySet="Wagon" />
+            <End Role="Container" EntitySet="Container" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Train">
           <Key>
@@ -97,9 +220,74 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="DepartureDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TrainNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Request" Relationship="ReservationSystem2Model.FK_Request_ToTable" FromRole="Train" ToRole="Request" />
+          <NavigationProperty Name="Request" Relationship="ReservationSystem2Model.FK_Request_ToTable1" FromRole="Train" ToRole="Request" />
         </EntityType>
-        <Association Name="FK_Request_ToTable">
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Container">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Goods" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="NHM" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Netto" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="Tara" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="Brutto" Type="Decimal" Nullable="false" Precision="5" Scale="0" />
+          <Property Name="Wagon_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Wagon" Relationship="ReservationSystem2Model.FK_Container_ToWagon" FromRole="Container" ToRole="Wagon" />
+        </EntityType>
+        <EntityType Name="NL">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Request_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Request" Relationship="ReservationSystem2Model.FK_NL_ToRequest" FromRole="NL" ToRole="Request" />
+          <NavigationProperty Name="Wagon" Relationship="ReservationSystem2Model.FK_Wagon_ToNL" FromRole="NL" ToRole="Wagon" />
+        </EntityType>
+        <EntityType Name="Wagon">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NL_Id" Type="Int32" Nullable="false" />
+          <Property Name="WagonType_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="NL" Relationship="ReservationSystem2Model.FK_Wagon_ToNL" FromRole="Wagon" ToRole="NL" />
+          <NavigationProperty Name="WagonType" Relationship="ReservationSystem2Model.FK_Wagon_ToWagonType" FromRole="Wagon" ToRole="WagonType" />
+          <NavigationProperty Name="Container" Relationship="ReservationSystem2Model.FK_Container_ToWagon" FromRole="Wagon" ToRole="Container" />
+        </EntityType>
+        <EntityType Name="WagonType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Lenght" Type="Decimal" Precision="5" Scale="0" />
+          <Property Name="Weight" Type="Decimal" Precision="5" Scale="0" />
+          <NavigationProperty Name="Wagon" Relationship="ReservationSystem2Model.FK_Wagon_ToWagonType" FromRole="WagonType" ToRole="Wagon" />
+        </EntityType>
+        <Association Name="FK_NL_ToRequest">
+          <End Type="ReservationSystem2Model.Request" Role="Request" Multiplicity="1" />
+          <End Type="ReservationSystem2Model.NL" Role="NL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NL">
+              <PropertyRef Name="Request_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Request_ToTable1">
           <End Type="ReservationSystem2Model.Train" Role="Train" Multiplicity="1" />
           <End Type="ReservationSystem2Model.Request" Role="Request" Multiplicity="*" />
           <ReferentialConstraint>
@@ -107,18 +295,46 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Request">
-              <PropertyRef Name="TrainId" />
+              <PropertyRef Name="Train_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
-        </EntityType>
+        <Association Name="FK_Wagon_ToNL">
+          <End Type="ReservationSystem2Model.NL" Role="NL" Multiplicity="1" />
+          <End Type="ReservationSystem2Model.Wagon" Role="Wagon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NL">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wagon">
+              <PropertyRef Name="NL_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wagon_ToWagonType">
+          <End Type="ReservationSystem2Model.WagonType" Role="WagonType" Multiplicity="1" />
+          <End Type="ReservationSystem2Model.Wagon" Role="Wagon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WagonType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wagon">
+              <PropertyRef Name="WagonType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Container_ToWagon">
+          <End Type="ReservationSystem2Model.Wagon" Role="Wagon" Multiplicity="1" />
+          <End Type="ReservationSystem2Model.Container" Role="Container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wagon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Container">
+              <PropertyRef Name="Wagon_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -128,15 +344,13 @@
           <EntitySetMapping Name="Request">
             <EntityTypeMapping TypeName="ReservationSystem2Model.Request">
               <MappingFragment StoreEntitySet="Request">
-                <ScalarProperty Name="TrainId" ColumnName="TrainId" />
+                <ScalarProperty Name="EndStation" ColumnName="EndStation" />
+                <ScalarProperty Name="StartStation" ColumnName="StartStation" />
+                <ScalarProperty Name="Reexpedition_Id" ColumnName="Reexpedition_Id" />
+                <ScalarProperty Name="Train_Id" ColumnName="Train_Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="ApproveDate" ColumnName="ApproveDate" />
                 <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="Depth" ColumnName="Depth" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Lenght" ColumnName="Lenght" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
@@ -157,6 +371,48 @@
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Container">
+            <EntityTypeMapping TypeName="ReservationSystem2Model.Container">
+              <MappingFragment StoreEntitySet="Container">
+                <ScalarProperty Name="Wagon_Id" ColumnName="Wagon_Id" />
+                <ScalarProperty Name="Brutto" ColumnName="Brutto" />
+                <ScalarProperty Name="Tara" ColumnName="Tara" />
+                <ScalarProperty Name="Netto" ColumnName="Netto" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="NHM" ColumnName="NHM" />
+                <ScalarProperty Name="Goods" ColumnName="Goods" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NL">
+            <EntityTypeMapping TypeName="ReservationSystem2Model.NL">
+              <MappingFragment StoreEntitySet="NL">
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wagon">
+            <EntityTypeMapping TypeName="ReservationSystem2Model.Wagon">
+              <MappingFragment StoreEntitySet="Wagon">
+                <ScalarProperty Name="WagonType_Id" ColumnName="WagonType_Id" />
+                <ScalarProperty Name="NL_Id" ColumnName="NL_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WagonType">
+            <EntityTypeMapping TypeName="ReservationSystem2Model.WagonType">
+              <MappingFragment StoreEntitySet="WagonType">
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Lenght" ColumnName="Lenght" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
